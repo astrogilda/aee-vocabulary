@@ -8,11 +8,14 @@ they honestly don't."
 
 ## Before you file
 
-Read the registry file in full, and read every status key while you are in there. At version 0.2.0
+Read the registry file in full, and read every status key while you are in there. At version 0.3.0
 each one says proposed, which means the term carries a review_by date and still needs a second
-independent issuer before promotion. Nothing here is canonical yet, and the reason is that nobody
-has filed a crosswalk at all, us included. Your filing is what moves a term, and the maintainer's
-own systems are held to the same bar, which is why they have not moved one either.
+independent issuer before promotion. Nothing here is canonical yet. Two crosswalks are on file and
+neither can change that: both are marked `third_party_authored: true`, mapping published
+specifications this project does not maintain, and a filing made from outside records provenance
+and never counts toward promotion. No described system's own maintainer has filed. Your filing is
+what moves a term, and the maintainer's own systems are held to the same bar, which is why they
+have not moved one either.
 
 Read GOVERNANCE.md as well. In particular, your crosswalk will be reviewed by a maintainer who
 does NOT have a declared interest in your system. A maintainer who does hold one stays off that
