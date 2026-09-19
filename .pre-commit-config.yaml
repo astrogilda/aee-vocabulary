@@ -13,7 +13,7 @@
 # history-identity audit walks every commit. Neither belongs in a hook a person
 # waits on.
 #
-# Every hook checks the whole repository rather than the staged files. These are
+# Every hook checks the whole repository, never the staged files. These are
 # corpus-level rules -- a crosswalk is valid against the vocabulary, a forbidden
 # string is absent from the tree -- and handing them a file list would let a rule
 # pass because the file that breaks it was not in the commit.

@@ -16,11 +16,13 @@ Naming the terms in an execution-evidence claim is a well-populated space. The r
 share a purpose: a vocabulary that independent systems crosswalk their own claims onto, so that a
 term means one thing across vendors.
 
-Four terms here carry the axis that decides whether any of the rest can be relied on, which is who
+Six terms here carry the axis that decides whether any of the rest can be relied on, which is who
 observed the execution and through how many hands the account of it passed:
 
 - `observation_vantage` and `observation_directness` say where a claim was obtained and how
   directly.
+- `attestation_tier` and `origin_kind` say whether the platform re-derived what it signed, and
+  whose evidence the record was assembled from.
 - `coverage_denominator` and `does_not_assert` say what it leaves out, and say so inside the
   signed bytes.
 
@@ -51,13 +53,21 @@ actually spoken.
 
 ## Status
 
-Version 0.2.0, tagged September 14, 2026.
+Version 0.3.0, unreleased. The last tagged release is 0.2.0, tagged September 14, 2026, which is
+the version CITATION.cff carries, so a citation pinned to a tag does not yet reach the three terms
+0.3.0 adds.
 
 The initial term set came from reading the nearest comparable registry term by term and recording,
 for each of ours, whether it names ground nobody has named yet or overlaps something already in
-use. Both answers occur. Five of the eight terms carry a why_this_registry note saying which, and
+use. Both answers occur. Eight of the eleven terms carry a why_this_registry note saying which, and
 that note is a field in the file, so a reader who disagrees can point at the line. The other three
 make their case in the definition itself.
+
+Two of the eleven are borrowed: a two-tier split over whether a signer re-derived its own subject,
+and a closed enum for which party assembled a record. Both came from published specifications this
+project does not maintain, and both are recorded in crosswalk/ with the section quoted, the
+divergences listed, and `third_party_authored: true` on the filing. A filing made from outside
+records provenance and promotes nothing.
 
 Every term is meant to land as a field inside a signed statement. Nobody consuming one should have
 to go hunting through documentation to learn what a claim withholds. Each release is tagged so a
