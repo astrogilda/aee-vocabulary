@@ -1,0 +1,58 @@
+# This file exists because the check it configures was failing for everybody
+# except us. The pre-commit.ci app is installed on this repository and had no
+# configuration to run, so it reported "error during ci config" on every pull
+# request -- and only on pull requests, never on a push to main. The result was
+# a red cross on an outside contributor's work caused entirely by our setup,
+# invisible on the path we ourselves take. A check that can only fail for the
+# people we are asking to contribute is worse than no check.
+#
+# The hooks below are the repository's own validators, the same ones
+# .github/workflows/validate.yml runs, so the signal a contributor gets before
+# pushing is the signal CI will give them afterwards. Two are deliberately left
+# out: the OSV scan needs the network and a release download, and the
+# history-identity audit walks every commit. Neither belongs in a hook a person
+# waits on.
+#
+# Every hook checks the whole repository rather than the staged files. These are
+# corpus-level rules -- a crosswalk is valid against the vocabulary, a forbidden
+# string is absent from the tree -- and handing them a file list would let a rule
+# pass because the file that breaks it was not in the commit.
+
+ci:
+  # The hooks here only ever report. None rewrites a file, so there is nothing
+  # for the service to commit back to a contributor's branch, and a silent fixup
+  # push onto someone else's pull request is not a thing this repository does.
+  autofix_prs: false
+  autoupdate_schedule: monthly
+
+repos:
+  - repo: local
+    hooks:
+      - id: validate-crosswalks
+        name: every crosswalk validates against the vocabulary
+        entry: python3 scripts/validate_crosswalks.py
+        language: python
+        additional_dependencies: ["PyYAML==6.0.3"]
+        pass_filenames: false
+        always_run: true
+        # The validator resolves an https source_path with a live request when a
+        # reviewer is checking a real filing. A hook must not depend on the
+        # network, so it runs offline and records each skipped resolution as a
+        # warning naming what went unchecked. CI makes the same choice and says
+        # where.
+        env:
+          VALIDATE_CROSSWALKS_OFFLINE: "1"
+
+      - id: ruled-out-phrases
+        name: tracked prose carries no ruled-out construction
+        entry: python3 scripts/lint_ruled_out_phrases.py
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: forbidden-word-scan
+        name: tracked files carry no forbidden string
+        entry: python3 scripts/forbidden-word-scan.py
+        language: system
+        pass_filenames: false
+        always_run: true
